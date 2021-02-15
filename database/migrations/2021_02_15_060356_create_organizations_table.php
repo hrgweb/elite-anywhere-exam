@@ -17,11 +17,6 @@ class CreateOrganizationsTable extends Migration
             $table->id();
             $table->string('name')->index();
             $table->string('email');
-            $table->string('street')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('country')->nullable();
-            $table->string('zip')->nullable();
             $table->timestamps();
         });
     }

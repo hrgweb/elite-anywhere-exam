@@ -17,5 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// PERSON
 Route::get('/person/list', 'PersonController@fetch');
 Route::resource('person', 'PersonController');
+
+// ORGANIZATION
+Route::get('/organization/list', 'OrganizationController@fetch');
+Route::resource('organization', 'OrganizationController');
