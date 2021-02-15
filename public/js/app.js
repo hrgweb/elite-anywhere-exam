@@ -2407,10 +2407,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       dialog: false,
+      organizationDialog: false,
       dialogDelete: false,
       headers: [{
         text: "Name",
@@ -2561,7 +2564,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this6 = this;
 
       this.selectedItem = item;
-      this.dialog = true;
+      this.organizationDialog = true;
       this.organizations = [];
       axios.get("/person/".concat(this.selectedItem.id, "/organization/list")).then(function (_ref5) {
         var data = _ref5.data;
@@ -39609,11 +39612,11 @@ var render = function() {
         {
           attrs: { width: "500" },
           model: {
-            value: _vm.dialog,
+            value: _vm.organizationDialog,
             callback: function($$v) {
-              _vm.dialog = $$v
+              _vm.organizationDialog = $$v
             },
-            expression: "dialog"
+            expression: "organizationDialog"
           }
         },
         [
@@ -39711,11 +39714,11 @@ var render = function() {
                       attrs: { color: "primary", text: "" },
                       on: {
                         click: function($event) {
-                          _vm.dialog = false
+                          _vm.organizationDialog = false
                         }
                       }
                     },
-                    [_vm._v(" Close")]
+                    [_vm._v("\n          Close")]
                   )
                 ],
                 1

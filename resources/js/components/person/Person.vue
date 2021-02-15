@@ -99,7 +99,7 @@
     </v-snackbar>
 
     <!-- DIALOG - PERSON BELONGS TO MANY ORGANIZATIONS -->
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="organizationDialog" width="500">
       <v-card>
         <v-card-title class="headline primary white--text"> User </v-card-title>
 
@@ -137,7 +137,9 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false"> Close</v-btn>
+          <v-btn color="primary" text @click="organizationDialog = false">
+            Close</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -148,6 +150,7 @@
 export default {
   data: () => ({
     dialog: false,
+    organizationDialog: false,
     dialogDelete: false,
     headers: [
       { text: "Name", value: "name" },
@@ -277,7 +280,7 @@ export default {
 
     onClickRow(item) {
       this.selectedItem = item;
-      this.dialog = true;
+      this.organizationDialog = true;
       this.organizations = [];
 
       axios
