@@ -2034,13 +2034,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       dialog: false,
       dialogDelete: false,
-      headers: [//   {
-      //     text: "Dessert (100g serving)",
-      //     align: "start",
-      //     sortable: false,
-      //     value: "name",
-      //   },
-      {
+      headers: [{
         text: "Name",
         value: "name"
       }, {
@@ -2049,6 +2043,10 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: "Registered",
         value: "created_at"
+      }, {
+        text: "Actions",
+        value: "actions",
+        sortable: false
       }],
       persons: [],
       editedIndex: -1,
@@ -2134,15 +2132,35 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       var data = this.editedItem;
-      data["name"] = this.name;
-      axios.post("/person", data).then(function (_ref2) {
-        var data = _ref2.data;
+      data["name"] = this.name; //   NEW PERSON
+
+      if (this.editedIndex === -1) {
+        axios.post("/person", data).then(function (_ref2) {
+          var data = _ref2.data;
+
+          if (data) {
+            _this4.fetch();
+
+            _this4.snackbar = true;
+            _this4.text = "1 person saved!";
+
+            _this4.close();
+          }
+        });
+        return;
+      } // EDIT PERSON
+
+
+      axios.patch("/person/".concat(this.editedItem.id), {
+        data: data
+      }).then(function (_ref3) {
+        var data = _ref3.data;
 
         if (data) {
           _this4.fetch();
 
           _this4.snackbar = true;
-          _this4.text = "1 person saved!";
+          _this4.text = "1 person updated!";
 
           _this4.close();
         }

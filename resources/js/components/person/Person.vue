@@ -105,15 +105,10 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      //   {
-      //     text: "Dessert (100g serving)",
-      //     align: "start",
-      //     sortable: false,
-      //     value: "name",
-      //   },
       { text: "Name", value: "name" },
       { text: "Email", value: "email" },
       { text: "Registered", value: "created_at" },
+      { text: "Actions", value: "actions", sortable: false },
     ],
     persons: [],
     editedIndex: -1,
@@ -204,14 +199,31 @@ export default {
       const data = this.editedItem;
       data["name"] = this.name;
 
-      axios.post("/person", data).then(({ data }) => {
-        if (data) {
-          this.fetch();
-          this.snackbar = true;
-          this.text = "1 person saved!";
-          this.close();
-        }
-      });
+      //   NEW PERSON
+      if (this.editedIndex === -1) {
+        axios.post("/person", data).then(({ data }) => {
+          if (data) {
+            this.fetch();
+            this.snackbar = true;
+            this.text = "1 person saved!";
+            this.close();
+          }
+        });
+
+        return;
+      }
+
+      // EDIT PERSON
+      axios
+        .patch(`/person/${this.editedItem.id}`, { data: data })
+        .then(({ data }) => {
+          if (data) {
+            this.fetch();
+            this.snackbar = true;
+            this.text = "1 person updated!";
+            this.close();
+          }
+        });
     },
   },
 };

@@ -26,4 +26,16 @@ class PersonController extends Controller
     {
         return User::paginate(5);
     }
+
+    public function update($id)
+    {
+        $data = request()->data;
+
+        return User::where('id', $id)->update([
+            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+        ]);
+    }
 }
