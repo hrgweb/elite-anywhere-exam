@@ -29,4 +29,5 @@ Route::resource('person', 'PersonController');
 
 // ORGANIZATION
 Route::get('/organization/list', 'OrganizationController@fetch');
+Route::get('/organization/{id}/person/list', 'OrganizationController@persons');
 Route::resource('organization', 'OrganizationController');

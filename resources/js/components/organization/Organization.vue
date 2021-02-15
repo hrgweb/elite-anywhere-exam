@@ -6,6 +6,7 @@
       sort-by="calories"
       class="elevation-1"
       hide-default-footer
+      @click:row="onClickRow"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -90,6 +91,54 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+    <!-- DIALOG - PERSON BELONGS TO MANY ORGANIZATIONS -->
+    <v-dialog v-model="personDialog" width="500">
+      <v-card>
+        <v-card-title class="headline primary white--text">
+          Organization
+        </v-card-title>
+
+        <v-card-text class="py-6 d-flex flex-column align-center">
+          <v-avatar color="primary" size="62">
+            <v-icon color="white">mdi-account</v-icon>
+          </v-avatar>
+
+          <span class="subtitle-1">{{
+            selectedItem.name ? selectedItem.name.toUpperCase() : ""
+          }}</span>
+        </v-card-text>
+
+        <v-card-text class="py-6 d-flex flex-column align-center">
+          <h3>PERSONS</h3>
+
+          <div class="person-chips" v-if="persons.length">
+            <v-chip
+              class="ma-2"
+              color="green"
+              text-color="white"
+              v-for="(person, index) in persons"
+              :key="index"
+            >
+              {{ person.name ? person.name.toUpperCase() : "" }}
+            </v-chip>
+          </div>
+
+          <div class="person-empty" v-else>
+            <span class="caption text-center">No persons connected.</span>
+          </div>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="personDialog = false">
+            Close</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -97,6 +146,7 @@
 export default {
   data: () => ({
     dialog: false,
+    personDialog: false,
     dialogDelete: false,
     headers: [
       { text: "Organization", value: "name" },
@@ -105,6 +155,7 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
     organizations: [],
+    persons: [],
     editedIndex: -1,
     editedItem: {
       name: "",
@@ -114,6 +165,7 @@ export default {
       name: "",
       email: "",
     },
+    selectedItem: {},
 
     // notification
     snackbar: false,
@@ -217,6 +269,16 @@ export default {
             this.close();
           }
         });
+    },
+
+    onClickRow(item) {
+      this.selectedItem = item;
+      this.personDialog = true;
+      this.persons = [];
+
+      axios
+        .get(`/organization/${this.selectedItem.id}/person/list`)
+        .then(({ data }) => (this.persons = data));
     },
   },
 };

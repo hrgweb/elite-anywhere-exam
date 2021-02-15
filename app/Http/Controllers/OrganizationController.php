@@ -39,4 +39,9 @@ class OrganizationController extends Controller
     {
         return Organization::where('id', $id)->delete();
     }
+
+    public function persons($id)
+    {
+        return Organization::find($id)->persons()->get();
+    }
 }
