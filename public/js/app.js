@@ -1872,10 +1872,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      drawer: null
+      appName: "Elite Anywhere",
+      drawer: null,
+      items: [{
+        title: "Dashboard",
+        icon: "mdi-view-dashboard"
+      }, {
+        title: "Person",
+        icon: "mdi-image",
+        url: "/user"
+      }, {
+        title: "Organization",
+        icon: "mdi-help-box",
+        url: "/organization"
+      }],
+      right: null
     };
   }
 });
@@ -1901,9 +1926,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 new vue__WEBPACK_IMPORTED_MODULE_2__.default({
   el: "#app",
   vuetify: _vuetify__WEBPACK_IMPORTED_MODULE_0__.default,
-  render: function render(h) {
-    return h(_App_vue__WEBPACK_IMPORTED_MODULE_1__.default);
-  }
+  components: {
+    App: _App_vue__WEBPACK_IMPORTED_MODULE_1__.default
+  } // render: (h) => h(App),
+
 });
 
 /***/ }),
@@ -37813,16 +37839,72 @@ var render = function() {
     "v-app",
     { attrs: { id: "inspire" } },
     [
-      _c("v-navigation-drawer", {
-        attrs: { app: "" },
-        model: {
-          value: _vm.drawer,
-          callback: function($$v) {
-            _vm.drawer = $$v
-          },
-          expression: "drawer"
-        }
-      }),
+      _c(
+        "v-navigation-drawer",
+        {
+          attrs: { app: "" },
+          model: {
+            value: _vm.drawer,
+            callback: function($$v) {
+              _vm.drawer = $$v
+            },
+            expression: "drawer"
+          }
+        },
+        [
+          _c(
+            "v-navigation-drawer",
+            { attrs: { permanent: "" } },
+            [
+              _c(
+                "v-list-item",
+                [
+                  _c(
+                    "v-list-item-content",
+                    [
+                      _c("v-list-item-title", { staticClass: "title" }, [
+                        _vm._v(" " + _vm._s(_vm.appName) + " ")
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-list",
+                { attrs: { dense: "", nav: "" } },
+                _vm._l(_vm.items, function(item) {
+                  return _c(
+                    "v-list-item",
+                    { key: item.title, attrs: { link: "" } },
+                    [
+                      _c(
+                        "v-list-item-icon",
+                        [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-item-content",
+                        [_c("v-list-item-title", [_vm._v(_vm._s(item.title))])],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-app-bar",
@@ -37834,38 +37916,12 @@ var render = function() {
                 _vm.drawer = !_vm.drawer
               }
             }
-          }),
-          _vm._v(" "),
-          _c("v-toolbar-title", [_vm._v("Application")])
+          })
         ],
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-main",
-        [
-          _c(
-            "v-container",
-            [
-              _c("v-icon", [_vm._v("mdi-access-point")]),
-              _vm._v(" "),
-              _c("v-icon", { attrs: { large: "", color: "green darken-2" } }, [
-                _vm._v(" mdi-domain ")
-              ]),
-              _vm._v(" "),
-              _c("v-icon", { attrs: { large: "", color: "blue darken-2" } }, [
-                _vm._v(" mdi-message-text ")
-              ]),
-              _vm._v(" "),
-              _c("v-icon", { attrs: { large: "", color: "purple darken-2" } }, [
-                _vm._v(" mdi-dialpad ")
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      )
+      _c("v-main", [_c("v-container", [_vm._t("default")], 2)], 1)
     ],
     1
   )
