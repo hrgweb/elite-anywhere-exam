@@ -39533,7 +39533,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v(" I accept ")]
+                    [_vm._v(" Close")]
                   )
                 ],
                 1
