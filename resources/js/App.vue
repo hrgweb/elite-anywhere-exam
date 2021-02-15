@@ -11,7 +11,12 @@
         <v-divider></v-divider>
 
         <v-list dense nav>
-          <v-list-item v-for="item in items" :key="item.title" link>
+          <v-list-item
+            v-for="item in items"
+            :key="item.title"
+            link
+            @click="onSidebarLink"
+          >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -29,7 +34,7 @@
     </v-app-bar>
 
     <v-main>
-      <v-container>
+      <v-container fluid>
         <slot></slot>
       </v-container>
     </v-main>
@@ -45,10 +50,16 @@ export default {
 
     items: [
       { title: "Dashboard", icon: "mdi-view-dashboard" },
-      { title: "Person", icon: "mdi-image", url: "/user" },
+      { title: "Person", icon: "mdi-image", url: "/person" },
       { title: "Organization", icon: "mdi-help-box", url: "/organization" },
     ],
     right: null,
   }),
+
+  methods: {
+    onSidebarLink() {
+      location.href = "/person";
+    },
+  },
 };
 </script>
