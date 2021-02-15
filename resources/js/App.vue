@@ -49,16 +49,32 @@ export default {
     drawer: null,
 
     items: [
-      { title: "Dashboard", icon: "mdi-view-dashboard" },
-      { title: "Person", icon: "mdi-image", url: "/person" },
-      { title: "Organization", icon: "mdi-help-box", url: "/organization" },
+      { title: "Dashboard", icon: "mdi-view-dashboard", url: "/" },
+      { title: "Person", icon: "mdi-account", url: "/person" },
+      { title: "Organization", icon: "mdi-domain", url: "/organization" },
     ],
     right: null,
   }),
 
   methods: {
-    onSidebarLink() {
-      location.href = "/person";
+    onSidebarLink(e) {
+      let url = "/";
+
+      switch (e.target.textContent.toLowerCase()) {
+        case "person":
+          url = "/person";
+          break;
+
+        case "organization":
+          url = "/organization";
+          break;
+
+        default:
+          url = "/";
+          break;
+      }
+
+      location.href = url;
     },
   },
 };

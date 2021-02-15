@@ -1895,22 +1895,39 @@ __webpack_require__.r(__webpack_exports__);
       drawer: null,
       items: [{
         title: "Dashboard",
-        icon: "mdi-view-dashboard"
+        icon: "mdi-view-dashboard",
+        url: "/"
       }, {
         title: "Person",
-        icon: "mdi-image",
+        icon: "mdi-account",
         url: "/person"
       }, {
         title: "Organization",
-        icon: "mdi-help-box",
+        icon: "mdi-domain",
         url: "/organization"
       }],
       right: null
     };
   },
   methods: {
-    onSidebarLink: function onSidebarLink() {
-      location.href = "/person";
+    onSidebarLink: function onSidebarLink(e) {
+      var url = "/";
+
+      switch (e.target.textContent.toLowerCase()) {
+        case "person":
+          url = "/person";
+          break;
+
+        case "organization":
+          url = "/organization";
+          break;
+
+        default:
+          url = "/";
+          break;
+      }
+
+      location.href = url;
     }
   }
 });
