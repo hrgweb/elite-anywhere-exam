@@ -2299,6 +2299,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2319,6 +2364,7 @@ __webpack_require__.r(__webpack_exports__);
         sortable: false
       }],
       persons: [],
+      organizations: [],
       editedIndex: -1,
       editedItem: {
         first_name: "",
@@ -2330,6 +2376,7 @@ __webpack_require__.r(__webpack_exports__);
         last_name: "",
         email: ""
       },
+      selectedItem: {},
       // notification
       snackbar: false,
       text: ""
@@ -2445,6 +2492,17 @@ __webpack_require__.r(__webpack_exports__);
 
           _this5.close();
         }
+      });
+    },
+    onClickRow: function onClickRow(item) {
+      var _this6 = this;
+
+      this.selectedItem = item;
+      this.dialog = true;
+      this.organizations = [];
+      axios.get("/person/".concat(this.selectedItem.id, "/organization/list")).then(function (_ref5) {
+        var data = _ref5.data;
+        return _this6.organizations = data;
       });
     }
   }
@@ -39017,6 +39075,7 @@ var render = function() {
           "sort-by": "calories",
           "hide-default-footer": ""
         },
+        on: { "click:row": _vm.onClickRow },
         scopedSlots: _vm._u([
           {
             key: "top",
@@ -39361,6 +39420,129 @@ var render = function() {
           }
         },
         [_vm._v("\n    " + _vm._s(_vm.text) + "\n\n    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                { staticClass: "headline primary white--text" },
+                [_vm._v(" User ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticClass: "py-6 d-flex flex-column align-center" },
+                [
+                  _c(
+                    "v-avatar",
+                    { attrs: { color: "primary", size: "62" } },
+                    [
+                      _c("v-icon", { attrs: { color: "white" } }, [
+                        _vm._v("mdi-account")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "subtitle-1" }, [
+                    _vm._v(
+                      _vm._s(
+                        _vm.selectedItem.name
+                          ? _vm.selectedItem.name.toUpperCase()
+                          : ""
+                      )
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { staticClass: "py-6 d-flex flex-column align-center" },
+                [
+                  _c("h3", [_vm._v("ORGANIZATIONS")]),
+                  _vm._v(" "),
+                  _vm.organizations.length
+                    ? _c(
+                        "div",
+                        { staticClass: "organization-chips" },
+                        _vm._l(_vm.organizations, function(
+                          organization,
+                          index
+                        ) {
+                          return _c(
+                            "v-chip",
+                            {
+                              key: index,
+                              staticClass: "ma-2",
+                              attrs: { color: "green", "text-color": "white" }
+                            },
+                            [
+                              _vm._v(
+                                "\n            " +
+                                  _vm._s(
+                                    organization.name
+                                      ? organization.name.toUpperCase()
+                                      : ""
+                                  ) +
+                                  "\n          "
+                              )
+                            ]
+                          )
+                        }),
+                        1
+                      )
+                    : _c("div", { staticClass: "organization-empty" }, [
+                        _c("span", { staticClass: "caption text-center" }, [
+                          _vm._v("No organizations connected.")
+                        ])
+                      ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v(" I accept ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1

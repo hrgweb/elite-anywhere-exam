@@ -6,6 +6,7 @@
       sort-by="calories"
       class="elevation-1"
       hide-default-footer
+      @click:row="onClickRow"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -96,6 +97,50 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+    <!-- DIALOG - PERSON BELONGS TO MANY ORGANIZATIONS -->
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title class="headline primary white--text"> User </v-card-title>
+
+        <v-card-text class="py-6 d-flex flex-column align-center">
+          <v-avatar color="primary" size="62">
+            <v-icon color="white">mdi-account</v-icon>
+          </v-avatar>
+
+          <span class="subtitle-1">{{
+            selectedItem.name ? selectedItem.name.toUpperCase() : ""
+          }}</span>
+        </v-card-text>
+
+        <v-card-text class="py-6 d-flex flex-column align-center">
+          <h3>ORGANIZATIONS</h3>
+
+          <div class="organization-chips" v-if="organizations.length">
+            <v-chip
+              class="ma-2"
+              color="green"
+              text-color="white"
+              v-for="(organization, index) in organizations"
+              :key="index"
+            >
+              {{ organization.name ? organization.name.toUpperCase() : "" }}
+            </v-chip>
+          </div>
+
+          <div class="organization-empty" v-else>
+            <span class="caption text-center">No organizations connected.</span>
+          </div>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialog = false"> I accept </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -111,6 +156,7 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
     persons: [],
+    organizations: [],
     editedIndex: -1,
     editedItem: {
       first_name: "",
@@ -122,6 +168,7 @@ export default {
       last_name: "",
       email: "",
     },
+    selectedItem: {},
 
     // notification
     snackbar: false,
@@ -226,6 +273,16 @@ export default {
             this.close();
           }
         });
+    },
+
+    onClickRow(item) {
+      this.selectedItem = item;
+      this.dialog = true;
+      this.organizations = [];
+
+      axios
+        .get(`/person/${this.selectedItem.id}/organization/list`)
+        .then(({ data }) => (this.organizations = data));
     },
   },
 };

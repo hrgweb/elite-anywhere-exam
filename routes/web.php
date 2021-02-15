@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    // return User::find(4)->organizations()->get();
+    // return Organization::find(2)->persons()->get();
+
     return view('welcome');
 });
 
 // PERSON
 Route::get('/person/list', 'PersonController@fetch');
+Route::get('/person/{id}/organization/list', 'PersonController@organizations');
 Route::resource('person', 'PersonController');
 
 // ORGANIZATION

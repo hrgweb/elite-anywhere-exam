@@ -43,4 +43,9 @@ class PersonController extends Controller
     {
         return User::where('id', $id)->delete();
     }
+
+    public function organizations($id)
+    {
+        return User::find($id)->organizations()->get();
+    }
 }
