@@ -24,7 +24,7 @@ class PersonController extends Controller
 
     public function fetch()
     {
-        return User::paginate(5);
+        return User::all();
     }
 
     public function update($id)
@@ -37,5 +37,10 @@ class PersonController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
         ]);
+    }
+
+    public function destroy($id)
+    {
+        return User::where('id', $id)->delete();
     }
 }

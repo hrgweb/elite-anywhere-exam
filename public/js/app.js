@@ -2062,9 +2062,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       // notification
       snackbar: false,
-      text: "",
-      // pagination
-      pagination: {}
+      text: ""
     };
   },
   computed: {
@@ -2092,8 +2090,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/person/list").then(function (_ref) {
         var data = _ref.data;
-        _this.pagination = data;
-        _this.persons = data.data;
+        return _this.persons = data;
       });
     },
     editItem: function editItem(item) {
@@ -2107,44 +2104,58 @@ __webpack_require__.r(__webpack_exports__);
       this.dialogDelete = true;
     },
     deleteItemConfirm: function deleteItemConfirm() {
-      this.persons.splice(this.editedIndex, 1);
-      this.closeDelete();
-    },
-    close: function close() {
       var _this2 = this;
 
-      this.dialog = false;
-      this.$nextTick(function () {
-        _this2.editedItem = Object.assign({}, _this2.defaultItem);
-        _this2.editedIndex = -1;
+      axios["delete"]("/person/".concat(this.editedItem.id), {
+        data: this.editedItem
+      }).then(function (_ref2) {
+        var data = _ref2.data;
+
+        if (data) {
+          _this2.persons.splice(_this2.editedIndex, 1);
+
+          _this2.snackbar = true;
+          _this2.text = "1 person removed!";
+
+          _this2.closeDelete();
+        }
       });
     },
-    closeDelete: function closeDelete() {
+    close: function close() {
       var _this3 = this;
 
-      this.dialogDelete = false;
+      this.dialog = false;
       this.$nextTick(function () {
         _this3.editedItem = Object.assign({}, _this3.defaultItem);
         _this3.editedIndex = -1;
       });
     },
-    save: function save() {
+    closeDelete: function closeDelete() {
       var _this4 = this;
+
+      this.dialogDelete = false;
+      this.$nextTick(function () {
+        _this4.editedItem = Object.assign({}, _this4.defaultItem);
+        _this4.editedIndex = -1;
+      });
+    },
+    save: function save() {
+      var _this5 = this;
 
       var data = this.editedItem;
       data["name"] = this.name; //   NEW PERSON
 
       if (this.editedIndex === -1) {
-        axios.post("/person", data).then(function (_ref2) {
-          var data = _ref2.data;
+        axios.post("/person", data).then(function (_ref3) {
+          var data = _ref3.data;
 
           if (data) {
-            _this4.fetch();
+            _this5.fetch();
 
-            _this4.snackbar = true;
-            _this4.text = "1 person saved!";
+            _this5.snackbar = true;
+            _this5.text = "1 person saved!";
 
-            _this4.close();
+            _this5.close();
           }
         });
         return;
@@ -2153,16 +2164,16 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.patch("/person/".concat(this.editedItem.id), {
         data: data
-      }).then(function (_ref3) {
-        var data = _ref3.data;
+      }).then(function (_ref4) {
+        var data = _ref4.data;
 
         if (data) {
-          _this4.fetch();
+          _this5.fetch();
 
-          _this4.snackbar = true;
-          _this4.text = "1 person updated!";
+          _this5.snackbar = true;
+          _this5.text = "1 person updated!";
 
-          _this4.close();
+          _this5.close();
         }
       });
     }

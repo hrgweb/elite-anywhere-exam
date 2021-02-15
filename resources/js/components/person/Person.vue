@@ -126,9 +126,6 @@ export default {
     // notification
     snackbar: false,
     text: ``,
-
-    // pagination
-    pagination: {},
   }),
 
   computed: {
@@ -156,10 +153,7 @@ export default {
 
   methods: {
     fetch() {
-      axios.get("/person/list").then(({ data }) => {
-        this.pagination = data;
-        this.persons = data.data;
-      });
+      axios.get("/person/list").then(({ data }) => (this.persons = data));
     },
 
     editItem(item) {
@@ -175,8 +169,16 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.persons.splice(this.editedIndex, 1);
-      this.closeDelete();
+      axios
+        .delete(`/person/${this.editedItem.id}`, { data: this.editedItem })
+        .then(({ data }) => {
+          if (data) {
+            this.persons.splice(this.editedIndex, 1);
+            this.snackbar = true;
+            this.text = "1 person removed!";
+            this.closeDelete();
+          }
+        });
     },
 
     close() {
